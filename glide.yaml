@@ -1,0 +1,22 @@
+package: github.com/heraware/cryptodev
+import:
+- package: github.com/moby/moby
+  version: ^17.5.0-ce-rc3
+  subpackages:
+  - client
+- package: github.com/spf13/cobra
+  subpackages:
+  - cobra
+- package: github.com/fatih/color
+  version: ^1.5.0
+- package: github.com/btcsuite/btcrpcclient
+- package: github.com/btcsuite/btcd
+  subpackages:
+  - btcjson
+  - chaincfg
+  - chaincfg/chainhash
+  - wire
+- package: github.com/boltdb/bolt
+  version: ^1.3.1
+  subpackages:
+  - '...'
