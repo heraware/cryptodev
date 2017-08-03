@@ -8,9 +8,7 @@ import (
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:.`,
+	Short: "Create a new node - Example: cryptodev create bitcoin",
 	Run: func(cmd *cobra.Command, args []string) {
 		docker := clients.NewDockerClient()
 		docker.CreateNode("bitcoin")
