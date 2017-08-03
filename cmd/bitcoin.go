@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/heraware/cryptodev/clients"
 	"github.com/spf13/cobra"
@@ -10,23 +11,29 @@ import (
 // bitcoinCmd represents the bitcoin command
 var bitcoinCmd = &cobra.Command{
 	Use:   "bitcoin",
-	Short: "A brief description of your command",
+	Short: "Run RPC command over Bitcoin Node (getinfo, getnewaddress, listaccounts)",
 	Run: func(cmd *cobra.Command, args []string) {
 		bitcoinClient := clients.NewBitcoinClient()
 
+		if len(args) == 0 {
+			log.Fatalln("Action not provided. Actions list: getinfo, getnewaddress, listaccounts")
+		}
 		switch args[0] {
 		case "getinfo":
-			info, _ := bitcoinClient.GetInfo()
+			info, err := bitcoinClient.GetInfo()
+			log.Fatal(err)
 			fmt.Println(info)
 		case "getnewaddress":
 			account := ""
 			if len(args) > 1 {
 				account = args[1]
 			}
-			address, _ := bitcoinClient.GetNewAddress(account)
+			address, err := bitcoinClient.GetNewAddress(account)
+			log.Fatal(err)
 			fmt.Println(address)
 		case "listaccounts":
-			accounts, _ := bitcoinClient.ListAccounts()
+			accounts, err := bitcoinClient.ListAccounts()
+			log.Fatal(err)
 			fmt.Println(accounts)
 		}
 	},
