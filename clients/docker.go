@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/boltdb/bolt"
 	"github.com/docker/docker/api/types"
@@ -88,6 +89,11 @@ func (d *Docker) runContainer(containerID string) error {
 	return d.Client.ContainerStart(context.Background(), containerID, types.ContainerStartOptions{})
 }
 
+func (d *Docker) stopContainer(containerID string) error {
+	timeout := 10 * time.Second
+	return d.Client.ContainerStop(context.Background(), containerID, &timeout)
+}
+
 func (d *Docker) createAndRunContainer(name string, image string) {
 	containerName := fmt.Sprintf("cryptodev-%s", name)
 	if d.containerExists(containerName) {
@@ -125,4 +131,19 @@ func (d *Docker) RunNode(name string) {
 		log.Fatalf("Container: %s doesn't exists, try to run `cryptodev create %s`", containerName, name)
 	}
 	fmt.Println(fmt.Sprintf("Node: %s is running - Container ID: %s", containerName, containerIDString))
+}
+
+func (d *Docker) StopNode(name string) {
+	containerName := fmt.Sprintf("cryptodev-%s", name)
+	containerID, err := d.getContainerInfo(containerName)
+	if err != nil {
+		panic(err)
+	}
+	containerIDString := string(containerID)
+	err = d.stopContainer(containerIDString)
+	if err != nil {
+		fmt.Println(d.deleteContainerInfo(containerName))
+		log.Fatalf("Container: %s doesn't exists, try to run `cryptodev create %s`", containerName, name)
+	}
+	fmt.Println(fmt.Sprintf("Node: %s was stopped", containerName))
 }
