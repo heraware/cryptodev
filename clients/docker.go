@@ -9,7 +9,8 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
-	"github.com/moby/moby/client"
+	"github.com/docker/docker/client"
+	"github.com/docker/go-connections/nat"
 )
 
 // Docker struct to manage all CryutoDev action with Docker
@@ -102,7 +103,13 @@ func (d *Docker) createAndRunContainer(name string, image string) {
 	containerConfig := container.Config{
 		Image: images[name],
 	}
-	containerBody, err := d.Client.ContainerCreate(context.Background(), &containerConfig, nil, nil, containerName)
+	portBindings := map[nat.Port][]nat.PortBinding{
+		"20001/tcp": []nat.PortBinding{nat.PortBinding{HostIP: "0.0.0.0", HostPort: "20001"}}}
+	hostConfig := container.HostConfig{
+		PortBindings: portBindings,
+		Privileged:   false,
+	}
+	containerBody, err := d.Client.ContainerCreate(context.Background(), &containerConfig, &hostConfig, nil, containerName)
 	if err != nil {
 		panic(err)
 	}
@@ -142,7 +149,6 @@ func (d *Docker) StopNode(name string) {
 	containerIDString := string(containerID)
 	err = d.stopContainer(containerIDString)
 	if err != nil {
-		fmt.Println(d.deleteContainerInfo(containerName))
 		log.Fatalf("Container: %s doesn't exists, try to run `cryptodev create %s`", containerName, name)
 	}
 	fmt.Println(fmt.Sprintf("Node: %s was stopped", containerName))

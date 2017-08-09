@@ -28,13 +28,14 @@ var bitcoinCmd = &cobra.Command{
 			if len(args) > 1 {
 				account = args[1]
 			}
-			address, err := bitcoinClient.GetNewAddress(account)
-			log.Fatal(err)
+			address, _ := bitcoinClient.GetNewAddress(account)
 			fmt.Println(address)
 		case "listaccounts":
 			accounts, err := bitcoinClient.ListAccounts()
 			log.Fatal(err)
 			fmt.Println(accounts)
+		default:
+			log.Fatal(fmt.Sprintf("Action %s is not valid.", args[0]))
 		}
 	},
 }
