@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	bitcoin "github.com/btcsuite/btcrpcclient"
 	"github.com/heraware/cryptodev/clients"
@@ -26,6 +27,8 @@ var bitcoinCmd = &cobra.Command{
 			getNewAddress(bitcoinClient, &args)
 		case "listaccounts":
 			listAccounts(bitcoinClient)
+		case "newblocks":
+			newBlocks(bitcoinClient, &args)
 		default:
 			log.Fatal(fmt.Sprintf("Action %s is not valid.", args[0]))
 		}
@@ -86,4 +89,22 @@ Errors          %s
 		info.Blocks, info.TimeOffset, info.Connections, info.Proxy,
 		info.Difficulty, info.TestNet, info.KeypoolOldest, info.KeypoolSize,
 		info.UnlockedUntil, info.PaytxFee, info.RelayFee, info.Errors))
+}
+
+func newBlocks(bitcoinClient *bitcoin.Client, args *[]string) {
+	var amountBlocks uint64 = 1
+	var err error
+	if len(*args) > 1 {
+		amountBlocks, err = strconv.ParseUint((*args)[1], 10, 32)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	hashes, err := bitcoinClient.Generate(uint32(amountBlocks))
+	if err != nil {
+		log.Fatal(err)
+	}
+	for i := 0; i < len(hashes); i++ {
+		fmt.Println(fmt.Sprintf("Block: %v", hashes[i]))
+	}
 }
