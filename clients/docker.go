@@ -23,6 +23,25 @@ var images = map[string]string{
 	"litecoin": "heraware/litecoin:latest",
 }
 
+var ports = map[string]nat.PortMap{
+	"bitcoin": map[nat.Port][]nat.PortBinding{
+		"20001/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "20001"},
+		},
+		"20000/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "20000"},
+		},
+	},
+	"litecoin": map[nat.Port][]nat.PortBinding{
+		"21001/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21001"},
+		},
+		"21000/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21000"},
+		},
+	},
+}
+
 // NewDockerClient Return a Docker instance with Docker client
 // configured from OS ENV
 func NewDockerClient() *Docker {
@@ -103,10 +122,8 @@ func (d *Docker) createAndRunContainer(name string, image string) {
 	containerConfig := container.Config{
 		Image: images[name],
 	}
-	portBindings := map[nat.Port][]nat.PortBinding{
-		"20001/tcp": []nat.PortBinding{nat.PortBinding{HostIP: "0.0.0.0", HostPort: "20001"}}}
 	hostConfig := container.HostConfig{
-		PortBindings: portBindings,
+		PortBindings: ports[name],
 		Privileged:   false,
 	}
 	containerBody, err := d.Client.ContainerCreate(context.Background(), &containerConfig, &hostConfig, nil, containerName)
