@@ -33,6 +33,6 @@ RUN chown -R cryptodevuser:cryptodevuser /home/cryptodevuser/.litecoin
 
 USER cryptodevuser
 
-EXPOSE 21000 210001
+EXPOSE 21000 21001
 
 CMD ["litecoind"]
