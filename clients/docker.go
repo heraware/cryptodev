@@ -151,7 +151,7 @@ func (d *Docker) RunNode(name string) {
 	containerIDString := string(containerID)
 	err = d.runContainer(containerIDString)
 	if err != nil {
-		fmt.Println(d.deleteContainerInfo(containerName))
+		d.deleteContainerInfo(containerName)
 		log.Fatalf("Container: %s doesn't exists, try to run `cryptodev create %s`", containerName, name)
 	}
 	fmt.Println(fmt.Sprintf("Node: %s is running - Container ID: %s", containerName, containerIDString))
@@ -166,6 +166,7 @@ func (d *Docker) StopNode(name string) {
 	containerIDString := string(containerID)
 	err = d.stopContainer(containerIDString)
 	if err != nil {
+		d.deleteContainerInfo(containerName)
 		log.Fatalf("Container: %s doesn't exists, try to run `cryptodev create %s`", containerName, name)
 	}
 	fmt.Println(fmt.Sprintf("Node: %s was stopped", containerName))
