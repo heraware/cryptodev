@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	bitcoin "github.com/btcsuite/btcrpcclient"
 	"github.com/heraware/cryptodev/clients"
 	"github.com/spf13/cobra"
 )
@@ -24,12 +25,7 @@ var bitcoinCmd = &cobra.Command{
 			log.Fatal(err)
 			fmt.Println(info)
 		case "getnewaddress":
-			account := ""
-			if len(args) > 1 {
-				account = args[1]
-			}
-			address, _ := bitcoinClient.GetNewAddress(account)
-			fmt.Println(address)
+			getNewAddress(bitcoinClient, &args)
 		case "listaccounts":
 			accounts, err := bitcoinClient.ListAccounts()
 			log.Fatal(err)
@@ -42,4 +38,17 @@ var bitcoinCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(bitcoinCmd)
+}
+
+func getNewAddress(bitcoinClient *bitcoin.Client, args *[]string) {
+	account := "N/A"
+	if len(*args) > 1 {
+		account = (*args)[1]
+	}
+	address, err := bitcoinClient.GetNewAddress(account)
+	if err != nil {
+		log.Fatal(err)
+	}
+	result := fmt.Sprintf("Address: %s Account: %s", address, account)
+	fmt.Println(result)
 }
