@@ -11,7 +11,10 @@ var createCmd = &cobra.Command{
 	Short: "Create a new node - Example: cryptodev create bitcoin",
 	Run: func(cmd *cobra.Command, args []string) {
 		docker := clients.NewDockerClient()
-		docker.CreateNode("bitcoin")
+		if len(args) > 0 {
+			nodeName := args[0]
+			docker.CreateNode(nodeName)
+		}
 	},
 }
 
