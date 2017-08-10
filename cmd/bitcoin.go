@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	bitcoin "github.com/btcsuite/btcrpcclient"
+	"github.com/btcsuite/btcutil"
 	"github.com/heraware/cryptodev/clients"
 	"github.com/spf13/cobra"
 )
@@ -29,6 +30,8 @@ var bitcoinCmd = &cobra.Command{
 			listAccounts(bitcoinClient)
 		case "newblocks":
 			newBlocks(bitcoinClient, &args)
+		case "send":
+			send(bitcoinClient, &args)
 		default:
 			log.Fatal(fmt.Sprintf("Action %s is not valid.", args[0]))
 		}
@@ -107,4 +110,28 @@ func newBlocks(bitcoinClient *bitcoin.Client, args *[]string) {
 	for i := 0; i < len(hashes); i++ {
 		fmt.Println(fmt.Sprintf("Block: %v", hashes[i]))
 	}
+}
+
+func send(bitcoinClient *bitcoin.Client, args *[]string) {
+	var address btcutil.Address
+	var amountFloat float64
+	var amount btcutil.Amount
+	var err error
+	if len(*args) > 2 {
+		address, err = btcutil.DecodeAddress((*args)[1], nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+		amountFloat, err = strconv.ParseFloat((*args)[2], 64)
+		if err != nil {
+			log.Fatal(err)
+		}
+		amount, err = btcutil.NewAmount(amountFloat)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Fatal("Put all arguments to this action. send <BTC ADDRESS> <BTC AMOUNT>")
+	}
+	bitcoinClient.SendToAddress(address, amount)
 }
