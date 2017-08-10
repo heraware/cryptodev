@@ -21,15 +21,11 @@ var bitcoinCmd = &cobra.Command{
 		}
 		switch args[0] {
 		case "getinfo":
-			info, err := bitcoinClient.GetInfo()
-			log.Fatal(err)
-			fmt.Println(info)
+			getInfo(bitcoinClient)
 		case "getnewaddress":
 			getNewAddress(bitcoinClient, &args)
 		case "listaccounts":
-			accounts, err := bitcoinClient.ListAccounts()
-			log.Fatal(err)
-			fmt.Println(accounts)
+			listAccounts(bitcoinClient)
 		default:
 			log.Fatal(fmt.Sprintf("Action %s is not valid.", args[0]))
 		}
@@ -41,7 +37,7 @@ func init() {
 }
 
 func getNewAddress(bitcoinClient *bitcoin.Client, args *[]string) {
-	account := "N/A"
+	account := ""
 	if len(*args) > 1 {
 		account = (*args)[1]
 	}
@@ -51,4 +47,43 @@ func getNewAddress(bitcoinClient *bitcoin.Client, args *[]string) {
 	}
 	result := fmt.Sprintf("Address: %s Account: %s", address, account)
 	fmt.Println(result)
+}
+
+func listAccounts(bitcoinClient *bitcoin.Client) {
+	accounts, err := bitcoinClient.ListAccounts()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for accountName, amountBTC := range accounts {
+		fmt.Println(fmt.Sprintf(
+			"Account name: %s - BTC Amount: %s", accountName, amountBTC))
+	}
+}
+
+func getInfo(bitcoinClient *bitcoin.Client) {
+	info, err := bitcoinClient.GetInfo()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(fmt.Sprintf(`
+Version         %d
+ProtocolVersion %d
+WalletVersion   %d
+Balance         %f
+Blocks          %d
+TimeOffset      %d
+Connections     %d
+Proxy           %s
+Difficulty      %f
+TestNet         %t
+KeypoolOldest   %d
+KeypoolSize     %d
+UnlockedUntil   %d
+PaytxFee        %f
+RelayFee        %f
+Errors          %s
+		`, info.Version, info.ProtocolVersion, info.WalletVersion, info.Balance,
+		info.Blocks, info.TimeOffset, info.Connections, info.Proxy,
+		info.Difficulty, info.TestNet, info.KeypoolOldest, info.KeypoolSize,
+		info.UnlockedUntil, info.PaytxFee, info.RelayFee, info.Errors))
 }
