@@ -19,7 +19,13 @@ var bitcoinCmd = &cobra.Command{
 		bitcoinClient := clients.NewBitcoinClient()
 
 		if len(args) == 0 {
-			log.Fatalln("Action not provided. Actions list: getinfo, getnewaddress, listaccounts")
+			log.Fatalln(`Action not provided.
+Actions list:
+ - getinfo
+ - getnewaddress <ACCOUNT>
+ - listaccounts
+ - newblocks <AMOUNT OF NEW BLOCKS>
+ - send <ADDRESS> <AMOUNT OF BTC>`)
 		}
 		switch args[0] {
 		case "getinfo":
