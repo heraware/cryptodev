@@ -33,6 +33,8 @@ COPY set_genesis.sh .
 
 COPY geth_mine.js .
 
+COPY entrypoint.sh .
+
 RUN mkdir cryptodev/
 
 # RUN mv genesis.json cryptodev/chain.json
@@ -52,4 +54,6 @@ RUN geth --datadir . --chain=cryptodev --networkid 99 --password password.txt ac
 
 RUN geth --datadir . --chain=cryptodev --networkid 99 --exec "eth.getBalance(eth.coinbase)" console
 
-ENTRYPOINT ["geth", "--datadir", ".", "--password", "password.txt", "--chain", "cryptodev", "--unlock", "0", "--networkid", "99", "--rpc", "--rpcaddr", "0.0.0.0", "--rpcapi", "admin,debug,eth,miner,net,personal,shh,txpool,web3", "js", "geth_mine.js"]
+EXPOSE 8546 30003
+
+ENTRYPOINT ["./entrypoint.sh"]
