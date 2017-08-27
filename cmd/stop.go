@@ -11,7 +11,10 @@ var stopCmd = &cobra.Command{
 	Short: "Stop an existing node - Example: cryptodev stop bitcoin",
 	Run: func(cmd *cobra.Command, args []string) {
 		docker := clients.NewDockerClient()
-		docker.StopNode("bitcoin")
+		if len(args) > 0 {
+			nodeName := args[0]
+			docker.StopNode(nodeName)
+		}
 	},
 }
 

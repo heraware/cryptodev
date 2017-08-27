@@ -11,7 +11,10 @@ var runCmd = &cobra.Command{
 	Short: "Run an existing node - Example: cryptodev run bitcoin",
 	Run: func(cmd *cobra.Command, args []string) {
 		docker := clients.NewDockerClient()
-		docker.RunNode("bitcoin")
+		if len(args) > 0 {
+			nodeName := args[0]
+			docker.RunNode(nodeName)
+		}
 	},
 }
 

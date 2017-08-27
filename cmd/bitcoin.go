@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	bitcoin "github.com/btcsuite/btcrpcclient"
+	bitcoin "github.com/btcsuite/btcd/rpcclient"
 	"github.com/btcsuite/btcutil"
 	"github.com/heraware/cryptodev/clients"
 	"github.com/spf13/cobra"

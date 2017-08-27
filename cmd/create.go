@@ -9,6 +9,12 @@ import (
 var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new node - Example: cryptodev create bitcoin",
+	Long: `
+Available nodes:
+- bitcoin
+- litecoin
+- ethereum
+- ethereum-classic`,
 	Run: func(cmd *cobra.Command, args []string) {
 		docker := clients.NewDockerClient()
 		if len(args) > 0 {

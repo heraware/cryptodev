@@ -22,7 +22,7 @@ var images = map[string]string{
 	"bitcoin":          "heraware/bitcoin:latest",
 	"litecoin":         "heraware/litecoin:latest",
 	"ethereum":         "heraware/ethereum:latest",
-	"ethereum-classic": "herware/ethereum-classic:latest",
+	"ethereum-classic": "heraware/ethereum-classic:latest",
 }
 
 var ports = map[string]nat.PortMap{

@@ -1,24 +1,27 @@
-hash: 847068ac307b0a6feb78a4f1d903d31b5b448cf580426d797f4da4c396a5db73
-updated: 2017-08-08T22:46:28.309576865-05:00
+hash: 69baefe3467a67470cd087faeebe49f20522e72b2bc49e9b7b928d5713bbb063
+updated: 2017-08-27T14:54:08.103732593-05:00
 imports:
+- name: github.com/Azure/go-ansiterm
+  version: 19f72df4d05d31cbe1c56bfc8045c96babff6c7e
+  subpackages:
+  - winterm
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
-  subpackages:
-  - '...'
 - name: github.com/btcsuite/btcd
-  version: 47885ab8702485be6b6f87a03d4f3be0bc5c982c
+  version: a1d1ea70dd212a440beb9caa4b766a58d1ed0254
   subpackages:
   - btcec
   - btcjson
   - chaincfg
   - chaincfg/chainhash
+  - rpcclient
   - wire
 - name: github.com/btcsuite/btclog
   version: 84c8d2346e9fc8c7b947e243b9c24e6df9fd206a
 - name: github.com/btcsuite/btcrpcclient
-  version: 0d9ec835baeb9a8ce7fbe3eb7d7783284a089ced
+  version: 22cf4e48bf371247b90fbae9cc5ef45c640ed9bb
 - name: github.com/btcsuite/btcutil
-  version: fd898ec77a5fdc8feac21487fe115fcdbc67cf7b
+  version: 501929d3d046174c3d39f0ea54ece471aa17238c
   subpackages:
   - base58
   - bech32
@@ -28,13 +31,33 @@ imports:
   - socks
 - name: github.com/btcsuite/websocket
   version: 31079b6807923eb23992c421b114992b95131b55
-- name: github.com/docker/distribution
-  version: 7a8efe719e55bbfaff7bc5718cdf0ed51ca821df
+- name: github.com/docker/cli
+  version: 21b5bbe41199e430d86c6619cbdfdd12bfcd76bc
   subpackages:
-  - digestset
+  - cli
+  - cli/command
+  - cli/config
+  - cli/config/configfile
+  - cli/config/credentials
+  - cli/flags
+  - opts
+- name: github.com/docker/distribution
+  version: 30578ca32960a4d368bf6db67b0a33c2a1f3dc6f
+  subpackages:
+  - context
+  - digest
   - reference
+  - registry/api/errcode
+  - registry/api/v2
+  - registry/client
+  - registry/client/auth
+  - registry/client/auth/challenge
+  - registry/client/transport
+  - registry/storage/cache
+  - registry/storage/cache/memory
+  - uuid
 - name: github.com/docker/docker
-  version: 90d35abf7b3535c1c319c872900fbd76374e521c
+  version: 6ed5db6243243c8b7ee3ff165f21bda4465124e5
   subpackages:
   - api
   - api/types
@@ -52,12 +75,29 @@ imports:
   - api/types/versions
   - api/types/volume
   - client
+  - opts
+  - pkg/homedir
+  - pkg/httputils
+  - pkg/idtools
   - pkg/ioutils
+  - pkg/jsonlog
+  - pkg/jsonmessage
   - pkg/longpath
+  - pkg/random
+  - pkg/stringid
   - pkg/system
+  - pkg/tarsum
+  - pkg/term
+  - pkg/term/windows
   - pkg/tlsconfig
+  - registry
+- name: github.com/docker/docker-credential-helpers
+  version: 2d19ebb7f482fb33cc63c9965ccda98b89821637
+  subpackages:
+  - client
+  - credentials
 - name: github.com/docker/go-connections
-  version: 990a1a1a70b0da4c4cb70e117971a4f0babfbf1a
+  version: 3ede32e2033de7505e6500d6c868c2b9ed9f169d
   subpackages:
   - nat
   - sockets
@@ -65,9 +105,17 @@ imports:
 - name: github.com/docker/go-units
   version: 0dadbb0345b35ec7ef35e228dabb8de89a65bf52
 - name: github.com/docker/libtrust
-  version: aabc10ec26b754e797f9028f4589c5b7bd90dc20
+  version: fa567046d9b14f6aa788882a950d69651d230b21
+- name: github.com/docker/notary
+  version: f2744d5270b0495218b2505ada9748abdeb6f899
+  subpackages:
+  - passphrase
 - name: github.com/fatih/color
   version: 570b54cabe6b8eb0bc2dfce68d964677d63b5260
+- name: github.com/gorilla/context
+  version: 14f550f51af52180c2eefed15e5fd18d63c0a64a
+- name: github.com/gorilla/mux
+  version: bcd8bc72b08df0f70df986b97f95590779502d31
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/mattn/go-colorable
@@ -78,35 +126,41 @@ imports:
   repo: https://github.com/mattn/go-isatty
 - name: github.com/Microsoft/go-winio
   version: 78439966b38d69bf38227fbf57ac8a6fee70f69a
+- name: github.com/moby/moby
+  version: 6ed5db6243243c8b7ee3ff165f21bda4465124e5
+  subpackages:
+  - pkg/term
+- name: github.com/Nvveen/Gotty
+  version: cd527374f1e5bff4938207604a14f2e38a9cf512
 - name: github.com/opencontainers/go-digest
-  version: 279bed98673dd5bef374d3b6e4b09e2af76183bf
+  version: aa2ec055abd10d26d539eb630a92241b781ce4bc
 - name: github.com/opencontainers/runc
-  version: d40db12e72a40109dfcf28539f5ee0930d2f0277
+  version: 1c81e2a794c6e26a4c650142ae8893c47f619764
   subpackages:
   - libcontainer/user
 - name: github.com/pkg/errors
   version: c605e284fe17294bda444b34710735b29d1a9d90
-- name: github.com/Sirupsen/logrus
-  version: 181d419aa9e2223811b824e8f0b4af96f9ba9302
+- name: github.com/sirupsen/logrus
+  version: 89742aefa4b206dcf400792f3bd35b542998eb3b
+- name: github.com/sirupsen/logrus
+  version: 55eb11d21d2a31a3cc93838241d04800f52e823d
 - name: github.com/spf13/cobra
-  version: b26b538f693051ac6518e65672de3144ce3fbedc
-  subpackages:
-  - cobra
+  version: 2df9a531813370438a4d79bfc33e21f58063ed87
 - name: github.com/spf13/pflag
   version: e57e3eeb33f795204c1ca35f56c44f83227c6e66
 - name: golang.org/x/crypto
-  version: b176d7def5d71bdd214203491f89843ed217f420
+  version: 81e90905daefcd6fd217b62423c0908922eadb30
   subpackages:
   - ripemd160
   - ssh/terminal
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: 4876518f9e71663000c348837735820161a42df7
   subpackages:
   - context
   - context/ctxhttp
   - proxy
 - name: golang.org/x/sys
-  version: e24f485414aeafb646f6fca458b0bf869c0880a1
+  version: 2d6f6f883a06fc0d5f4b14a81e4c28705ea64c15
   subpackages:
   - unix
   - windows

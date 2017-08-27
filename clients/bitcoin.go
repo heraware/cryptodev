@@ -3,7 +3,7 @@ package clients
 import (
 	"fmt"
 
-	bitcoin "github.com/btcsuite/btcrpcclient"
+	bitcoin "github.com/btcsuite/btcd/rpcclient"
 )
 
 var bitcoinConnConfig = bitcoin.ConnConfig{

@@ -20,6 +20,8 @@ COPY password.txt .
 
 COPY set_genesis.sh .
 
+COPY geth_mine.js .
+
 COPY entrypoint.sh .
 
 RUN geth  --datadir . init genesis.json
