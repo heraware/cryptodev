@@ -19,8 +19,10 @@ type Docker struct {
 }
 
 var images = map[string]string{
-	"bitcoin":  "heraware/bitcoin:latest",
-	"litecoin": "heraware/litecoin:latest",
+	"bitcoin":          "heraware/bitcoin:latest",
+	"litecoin":         "heraware/litecoin:latest",
+	"ethereum":         "heraware/ethereum:latest",
+	"ethereum-classic": "herware/ethereum-classic:latest",
 }
 
 var ports = map[string]nat.PortMap{
@@ -38,6 +40,22 @@ var ports = map[string]nat.PortMap{
 		},
 		"21000/tcp": []nat.PortBinding{
 			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21000"},
+		},
+	},
+	"ethereum": map[nat.Port][]nat.PortBinding{
+		"8545/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "8545"},
+		},
+		"30303/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "30303"},
+		},
+	},
+	"ethereum-classic": map[nat.Port][]nat.PortBinding{
+		"8546/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "8546"},
+		},
+		"30003/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "30003"},
 		},
 	},
 }
