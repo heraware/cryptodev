@@ -20,6 +20,8 @@ COPY password.txt .
 
 COPY set_genesis.sh .
 
+COPY entrypoint.sh .
+
 RUN geth  --datadir . init genesis.json
 
 RUN geth --datadir . --networkid 99 --password password.txt account new
@@ -34,4 +36,4 @@ RUN geth  --datadir . init genesis_alloc.json
 
 RUN geth --datadir . --networkid 99 --exec "eth.getBalance(eth.coinbase)" console
 
-ENTRYPOINT ["geth",  "--datadir", ".", "--password", "password.txt", "--unlock", "0", "--networkid", "99", "--rpc", "--rpcaddr", "0.0.0.0", "js", "geth_mine.js"]
+ENTRYPOINT ["./entrypoint.sh"]
