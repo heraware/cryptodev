@@ -13,6 +13,8 @@ var createCmd = &cobra.Command{
 Available nodes:
 - bitcoin
 - bitcoin-cash
+- bitcoin-gold
+- zcash
 - litecoin
 - ethereum
 - ethereum-classic`,
