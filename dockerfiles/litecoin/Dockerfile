@@ -3,7 +3,7 @@ FROM alpine:latest
 # Original Dockerfile https://hub.docker.com/r/szyhf/litecoin/~/dockerfile/
 MAINTAINER Yohan Graterol <yohangraterol92@gmail.com>
 
-ENV LITECOIN_VERSION=0.13.2
+ENV LITECOIN_VERSION=0.14.2
 ENV GLIBC_VERSION=2.25-r0
 
 RUN adduser -D -g "" cryptodevuser
