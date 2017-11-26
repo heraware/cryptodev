@@ -16,6 +16,7 @@ Available nodes:
 - bitcoin-gold
 - zcash
 - zen
+- dash
 - litecoin
 - ethereum
 - ethereum-classic`,

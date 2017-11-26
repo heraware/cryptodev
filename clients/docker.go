@@ -24,6 +24,7 @@ var images = map[string]string{
 	"bitcoin-gold":     "heraware/bitcoin-gold:latest",
 	"zcash":            "heraware/zcash:latest",
 	"zen":              "heraware/zen:latest",
+	"dash":             "heraware/dash:latest",
 	"litecoin":         "heraware/litecoin:latest",
 	"ethereum":         "heraware/ethereum:latest",
 	"ethereum-classic": "heraware/ethereum-classic:latest",
@@ -36,6 +37,14 @@ var ports = map[string]nat.PortMap{
 		},
 		"20000/tcp": []nat.PortBinding{
 			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "20000"},
+		},
+	},
+	"litecoin": map[nat.Port][]nat.PortBinding{
+		"21001/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21001"},
+		},
+		"21000/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21000"},
 		},
 	},
 	"bitcoin-cash": map[nat.Port][]nat.PortBinding{
@@ -70,12 +79,12 @@ var ports = map[string]nat.PortMap{
 			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "26000"},
 		},
 	},
-	"litecoin": map[nat.Port][]nat.PortBinding{
-		"21001/tcp": []nat.PortBinding{
-			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21001"},
+	"dash": map[nat.Port][]nat.PortBinding{
+		"27001/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "27001"},
 		},
-		"21000/tcp": []nat.PortBinding{
-			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "21000"},
+		"27000/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "27000"},
 		},
 	},
 	"ethereum": map[nat.Port][]nat.PortBinding{
