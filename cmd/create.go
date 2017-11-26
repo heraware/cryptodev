@@ -12,6 +12,7 @@ var createCmd = &cobra.Command{
 	Long: `
 Available nodes:
 - bitcoin
+- bitcoin-cash
 - litecoin
 - ethereum
 - ethereum-classic`,
