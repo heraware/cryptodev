@@ -23,6 +23,7 @@ var images = map[string]string{
 	"bitcoin-cash":     "heraware/bitcoin-cash:latest",
 	"bitcoin-gold":     "heraware/bitcoin-gold:latest",
 	"zcash":            "heraware/zcash:latest",
+	"zen":              "heraware/zen:latest",
 	"litecoin":         "heraware/litecoin:latest",
 	"ethereum":         "heraware/ethereum:latest",
 	"ethereum-classic": "heraware/ethereum-classic:latest",
@@ -59,6 +60,14 @@ var ports = map[string]nat.PortMap{
 		},
 		"25000/tcp": []nat.PortBinding{
 			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "25000"},
+		},
+	},
+	"zen": map[nat.Port][]nat.PortBinding{
+		"26001/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "26001"},
+		},
+		"26000/tcp": []nat.PortBinding{
+			nat.PortBinding{HostIP: "0.0.0.0", HostPort: "26000"},
 		},
 	},
 	"litecoin": map[nat.Port][]nat.PortBinding{
