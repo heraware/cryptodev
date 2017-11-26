@@ -14,7 +14,10 @@ var bitcoinConnConfig = bitcoin.ConnConfig{
 	HTTPPostMode: true,
 }
 
-func NewBitcoinClient() *bitcoin.Client {
+func NewBitcoinClient(port uint) *bitcoin.Client {
+	if port != 0 {
+		bitcoinConnConfig.Host = fmt.Sprintf("localhost:%d", port)
+	}
 	client, err := bitcoin.New(&bitcoinConnConfig, nil)
 	if err != nil {
 		panic(fmt.Sprintf("[Bitcoin module] An error has ocurred: %s", err))

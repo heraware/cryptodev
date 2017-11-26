@@ -16,7 +16,7 @@ var bitcoinCmd = &cobra.Command{
 	Use:   "bitcoin",
 	Short: "Run RPC command over Bitcoin Node (getinfo, getnewaddress, listaccounts)",
 	Run: func(cmd *cobra.Command, args []string) {
-		bitcoinClient := clients.NewBitcoinClient()
+		bitcoinClient := clients.NewBitcoinClient(20001)
 
 		if len(args) == 0 {
 			log.Fatalln(`Action not provided.
@@ -27,25 +27,29 @@ Actions list:
  - newblocks <AMOUNT OF NEW BLOCKS>
  - send <ADDRESS> <AMOUNT OF BTC>`)
 		}
-		switch args[0] {
-		case "getinfo":
-			getInfo(bitcoinClient)
-		case "getnewaddress":
-			getNewAddress(bitcoinClient, &args)
-		case "listaccounts":
-			listAccounts(bitcoinClient)
-		case "newblocks":
-			newBlocks(bitcoinClient, &args)
-		case "send":
-			send(bitcoinClient, &args)
-		default:
-			log.Fatal(fmt.Sprintf("Action %s is not valid.", args[0]))
-		}
+		runAction(&args, bitcoinClient)
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(bitcoinCmd)
+}
+
+func runAction(args *[]string, bitcoinClient *bitcoin.Client) {
+	switch (*args)[0] {
+	case "getinfo":
+		getInfo(bitcoinClient)
+	case "getnewaddress":
+		getNewAddress(bitcoinClient, args)
+	case "listaccounts":
+		listAccounts(bitcoinClient)
+	case "newblocks":
+		newBlocks(bitcoinClient, args)
+	case "send":
+		send(bitcoinClient, args)
+	default:
+		log.Fatal(fmt.Sprintf("Action %s is not valid.", (*args)[0]))
+	}
 }
 
 func getNewAddress(bitcoinClient *bitcoin.Client, args *[]string) {
