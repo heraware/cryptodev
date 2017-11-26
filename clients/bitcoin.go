@@ -14,6 +14,7 @@ var bitcoinConnConfig = bitcoin.ConnConfig{
 	HTTPPostMode: true,
 }
 
+// NewBitcoinClient connect and create bitcoinClient
 func NewBitcoinClient(port uint) *bitcoin.Client {
 	if port != 0 {
 		bitcoinConnConfig.Host = fmt.Sprintf("localhost:%d", port)
